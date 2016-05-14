@@ -1,0 +1,50 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class StudentOperator {
+	/**
+	 * The method uses switch-case construction and operates with the methods
+	 * from StudentFileManager Class.
+	 * 
+	 * @author Monika Marinova
+	 *
+	 */
+	public static void studentOperate() throws IOException {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		int choice = 0;
+		String menu = "You are logged in as Student,choose what to do: \n (1) Read Marks \n "
+				+ "(2) Read University Class \n (3) Back";
+		do {
+			System.out.println(menu);
+			choice = scan.nextInt();
+			switch (choice) {
+			case 1: {
+				StudentFileManager.readMarks();
+				break;
+			}
+			case 2: {
+				StudentFileManager.readUniversityClass();
+				break;
+			}
+			case 3: {
+				try {
+					University.authorize();
+				} catch (NoSuchAdminException e) {
+					System.out.println(e.getMessage());
+				} catch (NoSuchLecturerException e) {
+					System.out.println(e.getMessage());
+				} catch (NoSuchStudentException e) {
+					System.out.println(e.getMessage());
+				}
+				break;
+			}
+			default: {
+				System.out.println("Invalid input");
+			}
+			}
+		} while (choice >= 1 || choice <= 3);
+
+	}
+
+}
