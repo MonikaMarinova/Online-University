@@ -1,0 +1,49 @@
+/**
+ * Represents an Lecturer. Contents constructor, getters, setters and Override
+ * toString.
+ * 
+ * @author Monika Marinova
+ *
+ */
+
+public class Lecturer {
+
+	private String lecturerName;
+	private String lecturerId;
+	private String universityClass;
+
+	public Lecturer(String lecturerName, String lecturerId, String universityClass) {
+		this.lecturerName = lecturerName;
+		this.lecturerId = lecturerId;
+		this.universityClass = universityClass;
+	}
+
+	public String getLecturerName() {
+		return lecturerName;
+	}
+
+	public void setLecturerName(String lecturerName) {
+		this.lecturerName = lecturerName;
+	}
+
+	public String getLecturerId() {
+		return lecturerId;
+	}
+
+	public void setLecturerId(String lecturerId) {
+		this.lecturerId = lecturerId;
+	}
+
+	public String getUniversityClass() {
+		return universityClass;
+	}
+
+	public void setUniversityClass(String universityClass) {
+		this.universityClass = universityClass;
+	}
+
+	@Override
+	public String toString() {
+		return getLecturerId() + "\t" + getLecturerName() + "\t" + getUniversityClass();
+	}
+}
