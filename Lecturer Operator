@@ -1,0 +1,50 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class LecturerOperator {
+	/**
+	 * The method uses switch-case construction and operates with the methods
+	 * from LecturerFileManager Class.
+	 * 
+	 * @author Monika Marinova
+	 *
+	 */
+	public static void lecturerOperate() throws IOException {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		int choice = 0;
+		String menu = "You are logged in as Lecturer,choose what to do: \n (1) Write Marks \n "
+				+ "(2) Write University Class \n (3) Back";
+		do{
+		System.out.println(menu);
+		choice = scan.nextInt();
+		switch (choice) {
+		case 1: {
+			LecturerFileManager.writeMarks();
+			break;
+		}
+		case 2: {
+			LecturerFileManager.writeUniversityClass();
+			break;
+		}
+		case 3: {
+			try {
+				University.authorize();
+			} catch (NoSuchAdminException e) {
+				System.out.println(e.getMessage());
+			} catch (NoSuchLecturerException e) {
+				System.out.println(e.getMessage());
+			} catch (NoSuchStudentException e) {
+				System.out.println(e.getMessage());
+			}
+			break;
+		}
+		default: {
+			System.out.println("Invalid input");
+		}
+		}
+		}while(choice>=1 || choice<=3);
+	
+	}
+
+}
