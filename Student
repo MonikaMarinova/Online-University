@@ -1,0 +1,37 @@
+/**
+ * Represents an Student. Contents constructor, getters, setters and Override
+ * toString.
+ * 
+ * @author Monika Marinova
+ *
+ */
+public class Student {
+	private String studentFacultyNumber;
+	private String studentName;
+
+	public Student(String studentFacultyNumber, String studentName) {
+		this.studentFacultyNumber = studentFacultyNumber;
+		this.studentName = studentName;
+	}
+
+	public String getStudentFacultyNumber() {
+		return studentFacultyNumber;
+	}
+
+	public void setStudentFacultyNumber(String studentFacultyNumber) {
+		this.studentFacultyNumber = studentFacultyNumber;
+	}
+
+	public String getStudentName() {
+		return studentName;
+	}
+
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
+
+	@Override
+	public String toString() {
+		return getStudentFacultyNumber() + "\t" + getStudentName();
+	}
+}
