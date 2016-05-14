@@ -1,0 +1,92 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class LecturerFileManager {
+	/**
+	 * The method finds student by its Faculty Number. Writes
+	 * studentFacultyNumber + "\t"+ studentName+ "\t" + studentMark in text file
+	 * with name Lecturer.getLecturerName() + Lecturer.getUniversityClass().
+	 * Writes Lecturer.getLecturerName() + "\t" + Lecturer.getUniversityClass()
+	 * + "\t" + studentMark in text file with name
+	 * wantedStudentFacultyNumber+"Marks".
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static void writeMarks() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		String currentLine = new String();
+		String wantedStudentFacultyNumber = new String();
+		String currentStudentFacultyNumber = new String();
+		String studentMark = new String();
+		System.out.println("Enter the faculty number of the student you want to write marks: ");
+		wantedStudentFacultyNumber = scan.nextLine();
+
+		try {
+
+			BufferedReader buffReader = new BufferedReader(new FileReader("students.txt"));
+			BufferedWriter buffWriterMarks = new BufferedWriter(
+					new FileWriter(University.lecturerName + University.lecturerClass + ".txt", true));
+
+			while ((currentLine = buffReader.readLine()) != null) {
+
+				for (String splitedStudentFaculyNumber : currentLine.split("[^0-9]"))
+					currentStudentFacultyNumber = splitedStudentFaculyNumber.toString();
+
+				if (currentStudentFacultyNumber.equals(wantedStudentFacultyNumber)) {
+					System.out.println("Enter mark for student with faculty number " + wantedStudentFacultyNumber);
+					studentMark = scan.nextLine();
+					buffWriterMarks.write(currentLine + "\t" + studentMark);
+					buffWriterMarks.write("\r\n");
+					buffWriterMarks.flush();
+
+					BufferedWriter buffWriterFacultyNumber = new BufferedWriter(
+							new FileWriter(currentStudentFacultyNumber + "Marks.txt", true));
+					buffWriterFacultyNumber
+							.write(University.lecturerName + "\t" + University.lecturerClass + "\t" + studentMark);
+					buffWriterFacultyNumber.write("\r\n");
+					buffWriterFacultyNumber.flush();
+					buffWriterFacultyNumber.close();
+				}
+			}
+			buffWriterMarks.close();
+			buffReader.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * The method reads from the console the content of the University Class and
+	 * writes it in text file with name Lecturer.getLecturerName() +
+	 * Lecturer.getUniversityClass() + "Class".
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static void writeUniversityClass() {
+		try {
+			System.out.println("Enter the content of the class: ");
+			@SuppressWarnings("resource")
+			Scanner scan = new Scanner(System.in);
+			String content = scan.nextLine();
+
+			BufferedWriter buffWriter = new BufferedWriter(
+					new FileWriter(University.lecturerName + University.lecturerClass + "Class.txt", true));
+			buffWriter.write(content);
+			buffWriter.write("\r\n");
+			buffWriter.flush();
+			buffWriter.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+}
