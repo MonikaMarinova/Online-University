@@ -1,0 +1,97 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StudentFileManager {
+	/**
+	 * The method finds text file with name Student.getStudentFacultyNumber()
+	 * and prints the content of the file on the console.
+	 * 
+	 * @author Monika Marinova
+	 */
+
+	public static void readMarks() {
+
+		String studentFacultyNumber = new String();
+		String currentLine = new String();
+
+		studentFacultyNumber = University.studentId;
+
+		ArrayList<String> textFiles = new ArrayList<String>();
+		File dir = new File("E:\\Eclipse Projects\\University2.3");
+		for (File file : dir.listFiles()) {
+			if (file.getName().endsWith((".txt"))) {
+				textFiles.add(file.getName());
+			}
+
+		}
+		String fileName = new String();
+		fileName = studentFacultyNumber + "Marks.txt";
+		if (textFiles.contains(fileName)) {
+			try {
+				BufferedReader buffReader = new BufferedReader(new FileReader(fileName));
+				while ((currentLine = buffReader.readLine()) != null)
+					System.out.println(currentLine);
+				buffReader.close();
+			} catch (FileNotFoundException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+
+		}
+
+	}
+
+	/**
+	 * The method finds text file with name nameOfLecturer +
+	 * nameOfUniversityClass + "Class" and prints the content of the file on the
+	 * console.
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static void readUniversityClass() {
+
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		String nameOfLecturer = new String();
+		String nameOfUniversityClass = new String();
+		String currentLine = new String();
+
+		System.out.println("Enter the name of the lecturer: ");
+		nameOfLecturer = scan.nextLine();
+		System.out.println("Enter the name of the university class: ");
+		nameOfUniversityClass = scan.nextLine();
+
+		ArrayList<String> textFiles = new ArrayList<String>();
+		File dir = new File("E:\\Eclipse Projects\\University2.3");
+		for (File file : dir.listFiles()) {
+			if (file.getName().endsWith((".txt"))) {
+				textFiles.add(file.getName());
+			}
+
+		}
+		String fileName = new String();
+		fileName = nameOfLecturer + nameOfUniversityClass + "Class.txt";
+		if (textFiles.contains(fileName)) {
+			try {
+				BufferedReader buffReader = new BufferedReader(new FileReader(fileName));
+				while ((currentLine = buffReader.readLine()) != null)
+					System.out.println(currentLine);
+				buffReader.close();
+			} catch (FileNotFoundException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("There is no file with that name in the directory. \n");
+		}
+
+	}
+
+}
