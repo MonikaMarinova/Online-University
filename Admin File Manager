@@ -1,0 +1,403 @@
+/**
+	 * Method which saves a new admin in admins.txt file.
+	 * 
+	 * @author Monika Marinova
+	 * @throws IOException
+	 */
+
+	public static void createAdmin() throws IOException {
+
+		try {
+			String content = readAdminFromConsole();
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter("admins.txt", true));
+			buffWriter.write(content);
+			buffWriter.write("\r\n");
+			buffWriter.flush();
+			buffWriter.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Method which saves a new lecturer in lecturers.txt file.
+	 * 
+	 * @author Monika Marinova
+	 * @throws IOException
+	 */
+	public static void createLecturer() throws IOException {
+
+		try {
+			String content = readLecturerFromConsole();
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter("lecturers.txt", true));
+			buffWriter.write(content);
+			buffWriter.write("\r\n");
+			buffWriter.flush();
+			buffWriter.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Method which saves a new student in students.txt file.
+	 * 
+	 * @author Monika Marinova
+	 * @throws IOException
+	 */
+	public static void createStudent() throws IOException {
+
+		try {
+			String content = readStudentFromConsole();
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter("students.txt", true));
+			buffWriter.write(content);
+			buffWriter.write("\r\n");
+			buffWriter.flush();
+			buffWriter.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Method which finds admin by its ID and deletes it. The method makes
+	 * temporary text file in which saves all admins from the original file
+	 * without the admin with ID equal to the wanted one, then renames the
+	 * temporary file and deletes the original.
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static void deleteAdmin() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		String currentLine = new String();
+		String wantedAdminID = new String();
+		String currentAdminID = new String();
+
+		try {
+			File originalFile = new File("admins.txt");
+			File tempFile = new File("tempAdmins.txt");
+
+			System.out.println("Enter Admin ID you want to delete: ");
+			wantedAdminID = scan.nextLine();
+
+			if (wantedAdminID.equals(University.adminId)) {
+				System.out.println("This is your account. It can not be deleted by you.");
+				System.exit(0);
+			}
+
+			BufferedReader buffReader = new BufferedReader(new FileReader(originalFile));
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter(tempFile));
+
+			while ((currentLine = buffReader.readLine()) != null) {
+
+				for (String splitedAdminID : currentLine.split("[^0-9]"))
+
+					currentAdminID = splitedAdminID.toString();
+
+				if (!(wantedAdminID.equals(currentAdminID))) {
+					buffWriter.write(currentLine);
+					buffWriter.write("\r\n");
+					buffWriter.flush();
+
+				}
+			}
+
+			System.out.println("Admin with ID " + wantedAdminID + " has been deleted");
+
+			buffWriter.close();
+			buffReader.close();
+
+			boolean succeeded = false;
+			try {
+				if (originalFile.exists()) {
+					if (!originalFile.delete()) {
+						throw new IOException(" tempAdmins.txt was not successfully renamed to admins.txt");
+					}
+				}
+				if (!tempFile.renameTo(originalFile)) {
+					throw new IOException(" tempAdmins.txt was not successfully renamed to admins.txt");
+				} else {
+					succeeded = true;
+				}
+			} finally {
+				if (succeeded) {
+					tempFile.delete();
+				}
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Method which finds lecturer by its ID and deletes it. The method makes
+	 * temporary text file in which saves all lecturers from the original file
+	 * without the lecturer with ID equal to the wanted one, then renames the
+	 * temporary file and deletes the original.
+	 * 
+	 * @author Monika Marinova
+	 */
+
+	public static void deleteLecturer() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		String currentLine = new String();
+		String wantedLecturerID = new String();
+		String currentLecturerID = new String();
+
+		try {
+			File originalFile = new File("lecturers.txt");
+			File tempFile = new File("tempLecturers.txt");
+
+			System.out.println("Enter Lecturer ID you want to delete: ");
+			wantedLecturerID = scan.nextLine();
+			BufferedReader buffReader = new BufferedReader(new FileReader(originalFile));
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter(tempFile));
+
+			while ((currentLine = buffReader.readLine()) != null) {
+
+				for (String splitedLecturerID : currentLine.split("[^0-9]"))
+
+					currentLecturerID = splitedLecturerID.toString();
+
+				if (!(wantedLecturerID.equals(currentLecturerID))) {
+					buffWriter.write(currentLine);
+					buffWriter.write("\r\n");
+					buffWriter.flush();
+
+				}
+			}
+
+			System.out.println("Lecturer with ID " + wantedLecturerID + " has been deleted");
+
+			buffWriter.close();
+			buffReader.close();
+
+			boolean succeeded = false;
+			try {
+				if (originalFile.exists()) {
+					if (!originalFile.delete()) {
+						throw new IOException(" tempLecturers.txt was not successfully renamed to lecturers.txt");
+					}
+				}
+				if (!tempFile.renameTo(originalFile)) {
+					throw new IOException(" tempLecturers.txt was not successfully renamed to lecturers.txt");
+				} else {
+					succeeded = true;
+				}
+			} finally {
+				if (succeeded) {
+					tempFile.delete();
+				}
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Method which finds student by its Faculty Number and deletes it. The
+	 * method makes temporary text file in which saves all students from the
+	 * original file without the student with Faculty Number equal to the wanted
+	 * one, then renames the temporary file and deletes the original.
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static void deleteStudent() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		String currentLine = new String();
+		String wantedStudentFacultyNumber = new String();
+		String currentStudentFacultyNumber = new String();
+
+		try {
+			File originalFile = new File("students.txt");
+			File tempFile = new File("tempStudents.txt");
+
+			System.out.println("Enter Student Faculty Number you want to delete: ");
+			wantedStudentFacultyNumber = scan.nextLine();
+			BufferedReader buffReader = new BufferedReader(new FileReader(originalFile));
+			BufferedWriter buffWriter = new BufferedWriter(new FileWriter(tempFile));
+
+			while ((currentLine = buffReader.readLine()) != null) {
+
+				for (String splitedStudentFacultyNumber : currentLine.split("[^0-9]"))
+
+					currentStudentFacultyNumber = splitedStudentFacultyNumber.toString();
+
+				if (!(wantedStudentFacultyNumber.equals(currentStudentFacultyNumber))) {
+					buffWriter.write(currentLine);
+					buffWriter.write("\r\n");
+					buffWriter.flush();
+
+				}
+			}
+
+			System.out.println("Student with Faculty Number " + wantedStudentFacultyNumber + " has been deleted");
+
+			buffWriter.close();
+			buffReader.close();
+
+			boolean succeeded = false;
+			try {
+				if (originalFile.exists()) {
+					if (!originalFile.delete()) {
+						throw new IOException(" tempStudents.txt was not successfully renamed to students.txt");
+					}
+				}
+				if (!tempFile.renameTo(originalFile)) {
+					throw new IOException(" tempStudents.txt was not successfully renamed to students.txt");
+				} else {
+					succeeded = true;
+				}
+			} finally {
+				if (succeeded) {
+					tempFile.delete();
+				}
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Method which reads from the console and creates new Admin.
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static String readAdminFromConsole() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter admin ID(without blank spaces): ");
+		String adminId = scan.nextLine();
+		System.out.println("Enter admin Name(without blank spaces): ");
+		String adminName = scan.nextLine();
+		Admin admin = new Admin(adminName, adminId);
+		String adminStr = admin.toString();
+		return adminStr;
+	}
+
+	/**
+	 * Method which reads from the console and creates new Lecturer.
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static String readLecturerFromConsole() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter lecturer ID(without blank spaces): ");
+		String lecturerId = scan.nextLine();
+		System.out.println("Enter lecturer Name(without blank spaces): ");
+		String lecturerName = scan.nextLine();
+		System.out.println("Enter lecturer Class(without blank spaces): ");
+		String lecturerClass = scan.nextLine();
+		Lecturer lecturer = new Lecturer(lecturerName, lecturerId, lecturerClass);
+		String lecturerStr = lecturer.toString();
+		return lecturerStr;
+	}
+
+	/**
+	 * Method which reads from the console and creates new Student.
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static String readStudentFromConsole() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter student Faculty Number(without blank spaces): ");
+		String studentId = scan.nextLine();
+		System.out.println("Enter student Name(without blank spaces): ");
+		String studentName = scan.nextLine();
+		Student student = new Student(studentId,studentName);
+		String studentStr = student.toString();
+		return studentStr;
+	}
+
+	/**
+	 * The method uses switch-case construction which reads from chosen file and
+	 * prints it.
+	 * 
+	 * @author Monika Marinova
+	 */
+	public static void printInfo() {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		int wanted;
+		String currentLine = new String();
+
+		System.out.println("Choose what information to print:Admins(1), Lecturers(2), Students(3)");
+		wanted = scan.nextInt();
+		switch (wanted) {
+		case 1: {
+			ArrayList<String> admins = new ArrayList<String>();
+			try {
+				System.out.println("Admins:");
+				BufferedReader buffReader = new BufferedReader(new FileReader("admins.txt"));
+				while ((currentLine = buffReader.readLine()) != null) {
+					admins.add(currentLine);
+				}
+				buffReader.close();
+			} catch (FileNotFoundException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+			for (String adminsArray : admins)
+				System.out.println(adminsArray);
+			break;
+
+		}
+
+		case 2: {
+			ArrayList<String> lecturers = new ArrayList<String>();
+			try {
+				System.out.println("Lecturers:");
+				BufferedReader buffReader = new BufferedReader(new FileReader("lecturers.txt"));
+				while ((currentLine = buffReader.readLine()) != null) {
+					lecturers.add(currentLine);
+				}
+				buffReader.close();
+			} catch (FileNotFoundException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+			for (String lecturersArray : lecturers)
+				System.out.println(lecturersArray);
+			break;
+		}
+		case 3: {
+			ArrayList<String> students = new ArrayList<String>();
+			try {
+				System.out.println("Students:");
+				BufferedReader buffReader = new BufferedReader(new FileReader("students.txt"));
+				while ((currentLine = buffReader.readLine()) != null) {
+					students.add(currentLine);
+				}
+				buffReader.close();
+			} catch (FileNotFoundException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+			for (String studentsArray : students)
+				System.out.println(studentsArray);
+			break;
+		}
+		default: {
+			System.out.println("Invalid input");
+		}
+		}
+
+	}
+}
