@@ -1,0 +1,70 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class AdminOperator {
+	/**
+	 * The method uses switch-case construction and operates with the methods
+	 * from AdminFileManager Class.
+	 * 
+	 * @author Monika Marinova
+	 *
+	 */
+	public static void adminOperate() throws IOException {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		int choice = 0;
+		String menu = "You are logged in as Admin,choose what to do: \n (1) Create Admin \n "
+				+ "(2) Create Lecturer \n (3) Create Student \n (4) Delete Admin\n "
+				+ "(5) Delete Lecturer \n (6) Delete Student  \n (7) Print Information \n (8) Back";
+		do {
+			System.out.println(menu);
+			choice = scan.nextInt();
+
+			switch (choice) {
+			case 1: {
+				AdminFileManager.createAdmin();
+				break;
+			}
+			case 2: {
+				AdminFileManager.createLecturer();
+				break;
+			}
+			case 3: {
+				AdminFileManager.createStudent();
+				break;
+			}
+			case 4: {
+				AdminFileManager.deleteAdmin();
+				break;
+			}
+			case 5: {
+				AdminFileManager.deleteLecturer();
+				break;
+			}
+			case 6: {
+				AdminFileManager.deleteStudent();
+				break;
+			}
+			case 7: {
+				AdminFileManager.printInfo();
+				break;
+			}
+			case 8: {
+				try {
+					University.authorize();
+				} catch (NoSuchAdminException e) {
+					System.out.println(e.getMessage());
+				} catch (NoSuchLecturerException e) {
+					System.out.println(e.getMessage());
+				} catch (NoSuchStudentException e) {
+					System.out.println(e.getMessage());
+				}
+				break;
+			}
+			default: {
+				System.out.println("Invalid input");
+			}
+			}
+		} while (choice >= 1 || choice <= 8);
+	}
+}
